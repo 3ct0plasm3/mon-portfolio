@@ -117,7 +117,7 @@ const projects: Project[] = [
     title: 'Ma Commune Vivante',
     description:
       "Une plateforme citoyenne pour reconnecter les habitants à la vie locale et aux initiatives écologiques de leur commune.",
-    githubUrl: 'https://github.com/3ct0plam3/MaCommuneVivante',
+    githubUrl: 'https://github.com/3ct0plasm3/MaCommuneVivante',
   },
   {
     title: 'Studio Nail Art',
@@ -286,7 +286,7 @@ function App() {
               <Mail className="h-5 w-5" />
             </a>
             <a
-              href="https://github.com/Thisisloverdose"
+              href="https://github.com/3ct0plasm3"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub"
