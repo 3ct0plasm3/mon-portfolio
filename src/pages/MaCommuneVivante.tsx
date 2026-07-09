@@ -180,6 +180,12 @@ function MaCommuneVivante() {
             architecture conçue pour être auditée. Une démonstration technique peut être
             organisée sur demande pour les acteurs institutionnels ou partenaires potentiels.
           </p>
+
+          <p className="mt-10 text-lg font-medium text-goth-violet">
+            Vision à terme : une infrastructure évolutive, conçue pour intégrer nativement les
+            futurs outils de mesure de la résilience climatique, tout en garantissant la
+            pérennité et la réversibilité des données territoriales.
+          </p>
         </section>
       </main>
 
