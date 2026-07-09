@@ -10,7 +10,7 @@ const cycle = [
     subtitle: 'Le Signalement',
     icon: <MapPin className="h-5 w-5" />,
     description:
-      "Une cartographie interactive et thématique centralise les observations locales — biodiversité, urbanisme, urgences faune.",
+      "Une cartographie interactive centralise les signalements environnementaux, projets citoyens et institutionnels, et déclenche une cascade d'alerte dédiée pour les urgences faune.",
   },
   {
     number: '02',
@@ -45,9 +45,9 @@ const challenges = [
   },
   {
     icon: <Network className="h-6 w-6" />,
-    challenge: 'Interopérabilité',
+    challenge: 'Aide à la décision',
     solution:
-      "Développement d'API pensées pour s'intégrer aux outils de gestion technique déjà utilisés par les communes.",
+      "Un moteur de calcul dédié convertit signalements et actions en indicateurs de résilience territoriale (Score du Vivant), pour objectiver la décision publique.",
   },
 ]
 
