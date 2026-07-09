@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-goth-bg text-neutral-200 antialiased;
+    background-image: radial-gradient(
+      ellipse at center,
+      rgba(124, 58, 237, 0.08) 0%,
+      rgba(5, 5, 5, 0) 55%
+    );
+    background-attachment: fixed;
+  }
+}
+
+@layer utilities {
+  /* Titres "gravés" : relief simulé par un double text-shadow (clair au-dessus, sombre en-dessous) */
+  .text-engraved {
+    text-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.08),
+      0 -1px 1px rgba(0, 0, 0, 0.8);
+  }
+}
