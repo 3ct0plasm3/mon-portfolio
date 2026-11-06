@@ -1,8 +1,22 @@
 import type { SVGProps } from 'react'
 import { Link } from 'react-router-dom'
 import { Mail } from 'lucide-react'
+import { LANGUAGES, useLanguage } from '../i18n/LanguageContext'
 
 export const CONTACT_EMAIL = 'marilou.ncks@gmail.com'
+
+const labels = {
+  fr: {
+    projects: 'Projets',
+    rights: 'Tous droits réservés.',
+    chooseLanguage: 'Choisir la langue',
+  },
+  en: {
+    projects: 'Projects',
+    rights: 'All rights reserved.',
+    chooseLanguage: 'Choose language',
+  },
+}
 
 export function GithubIcon(props: SVGProps<SVGSVGElement>) {
   return (
@@ -22,7 +36,7 @@ export function LinkedinIcon(props: SVGProps<SVGSVGElement>) {
 
 export function CornerFlourish(props: SVGProps<SVGSVGElement>) {
   return (
-    <svg viewBox="0 0 120 120" fill="none" stroke="currentColor" {...props}>
+    <svg viewBox="0 0 120 120" fill="none" stroke="currentColor" aria-hidden="true" {...props}>
       {/* vigne principale, tracé épais et net */}
       <path d="M4 116 C4 66 26 32 58 18" strokeWidth="3" strokeLinecap="round" />
       <path d="M4 92 C4 60 18 36 42 24" strokeWidth="1.75" strokeLinecap="round" />
@@ -59,6 +73,29 @@ export function CornerFlourish(props: SVGProps<SVGSVGElement>) {
   )
 }
 
+const cornerPositions = [
+  'left-2 top-2',
+  'right-2 top-2 -scale-x-100',
+  'bottom-2 left-2 -scale-y-100',
+  'bottom-2 right-2 -scale-x-100 -scale-y-100',
+]
+
+export function CardCorners() {
+  return cornerPositions.map((position) => (
+    <svg
+      key={position}
+      viewBox="0 0 16 16"
+      fill="none"
+      stroke="currentColor"
+      aria-hidden="true"
+      className={`pointer-events-none absolute h-4 w-4 text-goth-rose/45 ${position}`}
+    >
+      <path d="M1 12 V5 Q1 1 5 1 H12" strokeLinecap="round" />
+      <path d="M6 4 L8 6 L6 8 L4 6 Z" fill="currentColor" stroke="none" />
+    </svg>
+  ))
+}
+
 export function OrnamentalDivider() {
   return (
     <div className="mx-auto flex max-w-6xl items-center gap-4 px-6">
@@ -79,26 +116,61 @@ export function SectionEyebrow({ label }: { label: string }) {
   )
 }
 
+export function LanguageSwitcher() {
+  const { lang, setLang } = useLanguage()
+  return (
+    <div
+      role="group"
+      aria-label={labels[lang].chooseLanguage}
+      className="fixed right-0 top-24 z-40 flex flex-col overflow-hidden rounded-l-lg border border-r-0 border-goth-rose/50 bg-goth-bg/95 shadow-[0_0_14px_-4px_rgba(214,162,184,0.6)]"
+    >
+      {LANGUAGES.map(({ code, label, name }) => (
+        <button
+          key={code}
+          type="button"
+          lang={code}
+          aria-label={name}
+          aria-pressed={lang === code}
+          onClick={() => setLang(code)}
+          className={`h-8 w-6 font-mono text-[10px] font-medium transition-colors sm:h-9 sm:w-10 sm:text-xs sm:tracking-wider focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-goth-rose ${
+            lang === code
+              ? 'bg-goth-rose text-goth-bg'
+              : 'text-neutral-300 hover:text-goth-rose'
+          }`}
+        >
+          {label}
+        </button>
+      ))}
+    </div>
+  )
+}
+
 export function SiteHeader() {
+  const { lang } = useLanguage()
   return (
     <header className="sticky top-0 z-50 bg-goth-bg/85 backdrop-blur-md">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-3 py-5 transition-all duration-300 sm:px-6">
         <Link
           to="/"
-          className="text-engraved font-heading text-lg tracking-[0.15em] text-goth-rose"
+          className="text-engraved font-heading text-base tracking-[0.1em] text-goth-rose sm:text-lg sm:tracking-[0.15em] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-goth-rose focus-visible:ring-offset-4 focus-visible:ring-offset-goth-bg"
         >
           ECTO.DEV
         </Link>
-        <nav className="flex items-center gap-6">
-          <a
-            href="/#projets"
-            className="font-mono text-xs uppercase tracking-[0.2em] text-neutral-300 transition-colors hover:text-goth-rose"
+        <nav className="flex items-center gap-2 sm:gap-6">
+          <Link
+            to="/projets"
+            className="font-mono text-[11px] uppercase tracking-[0.1em] text-neutral-300 transition-colors hover:text-goth-rose focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-goth-rose focus-visible:ring-offset-4 focus-visible:ring-offset-goth-bg sm:text-xs sm:tracking-[0.2em]"
           >
-            Projets
+            {labels[lang].projects}
+          </Link>          <a
+            href="/#skills"
+            className="font-mono text-[11px] uppercase tracking-[0.1em] text-neutral-300 sm:text-xs sm:tracking-[0.2em] transition-colors hover:text-goth-rose focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-goth-rose focus-visible:ring-offset-4 focus-visible:ring-offset-goth-bg"
+          >
+            Skills
           </a>
           <a
             href={`mailto:${CONTACT_EMAIL}`}
-            className="rounded-full border border-goth-violet/60 bg-goth-violet px-5 py-2 text-sm font-medium text-white shadow-[0_0_18px_-2px_rgba(124,58,237,0.55)] transition-shadow duration-300 hover:shadow-[0_0_30px_2px_rgba(124,58,237,0.9)]"
+            className="rounded-full border border-goth-violet/60 bg-goth-violet px-3 py-2 text-sm font-medium text-white sm:px-5 shadow-[0_0_18px_-2px_rgba(124,58,237,0.55)] transition-shadow duration-300 hover:shadow-[0_0_30px_2px_rgba(124,58,237,0.9)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-goth-rose focus-visible:ring-offset-4 focus-visible:ring-offset-goth-bg"
           >
             Contact
           </a>
@@ -110,6 +182,7 @@ export function SiteHeader() {
 }
 
 export function SiteFooter() {
+  const { lang } = useLanguage()
   return (
     <footer className="border-t border-goth-violet/10 px-6 py-10">
       <div className="mx-auto flex max-w-6xl flex-col items-center gap-4">
@@ -117,7 +190,7 @@ export function SiteFooter() {
           <a
             href={`mailto:${CONTACT_EMAIL}`}
             aria-label="Email"
-            className="text-neutral-400 transition-colors hover:text-goth-rose"
+            className="text-neutral-400 transition-transform duration-300 hover:-translate-y-1 hover:text-goth-rose focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-goth-rose focus-visible:ring-offset-4 focus-visible:ring-offset-goth-bg"
           >
             <Mail className="h-5 w-5" />
           </a>
@@ -126,7 +199,7 @@ export function SiteFooter() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="GitHub"
-            className="text-neutral-400 transition-colors hover:text-goth-rose"
+            className="text-neutral-400 transition-transform duration-300 hover:-translate-y-1 hover:text-goth-rose focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-goth-rose focus-visible:ring-offset-4 focus-visible:ring-offset-goth-bg"
           >
             <GithubIcon className="h-5 w-5" />
           </a>
@@ -135,13 +208,13 @@ export function SiteFooter() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="LinkedIn"
-            className="text-neutral-400 transition-colors hover:text-goth-rose"
+            className="text-neutral-400 transition-transform duration-300 hover:-translate-y-1 hover:text-goth-rose focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-goth-rose focus-visible:ring-offset-4 focus-visible:ring-offset-goth-bg"
           >
             <LinkedinIcon className="h-5 w-5" />
           </a>
         </div>
-        <p className="font-mono text-xs text-neutral-600">
-          © {new Date().getFullYear()} Ecto.dev — Tous droits réservés.
+        <p suppressHydrationWarning className="font-mono text-xs text-neutral-600">
+          © {new Date().getFullYear()} Ecto.dev — {labels[lang].rights}
         </p>
       </div>
     </footer>

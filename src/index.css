@@ -14,6 +14,80 @@
   }
 }
 
+@layer base {
+  html {
+    scrollbar-width: thin;
+    scrollbar-color: #3b2a44 #050505;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #050505;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #3b2a44;
+    border-radius: 8px;
+  }
+
+  ::selection {
+    background: #7a3f5c;
+    color: #fff;
+  }
+}
+
+@layer components {
+  /* Lettrine : pseudo-élément CSS, le texte lu par les lecteurs d'écran ne change pas. */
+  .dropcap::first-letter {
+    float: left;
+    margin: 0.1em 0.3em 0 0;
+    border: 1px solid rgba(214, 162, 184, 0.45);
+    background: rgba(124, 58, 237, 0.12);
+    padding: 0.16em 0.22em;
+    color: #d6a2b8;
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 2.9em;
+    line-height: 0.9;
+  }
+
+  .gothic-arch {
+    transition: filter 0.5s ease;
+  }
+
+  .gothic-arch:hover {
+    filter: drop-shadow(0 0 12px rgba(214, 162, 184, 0.4));
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .sigil-ring {
+      transform-origin: 320px 320px;
+      animation: sigil-turn 360s linear infinite;
+    }
+
+    .sigil-line {
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+      animation: sigil-draw 3.2s ease-out forwards;
+    }
+  }
+}
+
+@keyframes sigil-turn {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes sigil-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
 @layer utilities {
   /* Titres "gravés" : relief simulé par un double text-shadow (clair au-dessus, sombre en-dessous) */
   .text-engraved {
