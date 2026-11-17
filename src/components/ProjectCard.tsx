@@ -3,11 +3,12 @@ import { ArrowRight, ExternalLink } from 'lucide-react'
 import { CardCorners, GithubIcon } from './shared'
 import { homeContent } from '../content/home'
 import type { Project } from '../content/home'
-import { useLanguage } from '../i18n/LanguageContext'
+import { useLanguage, useLocalePath } from '../i18n/LanguageContext'
 
 export function ProjectCard({ project }: { project: Project }) {
   const { lang } = useLanguage()
   const t = homeContent[lang]
+  const localePath = useLocalePath()
   return (
     <div className="group relative">
       <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-goth-rose/60 via-goth-violet/60 to-goth-rose/40 opacity-0 blur-[3px] transition-opacity duration-500 group-hover:opacity-100" />
@@ -24,7 +25,7 @@ export function ProjectCard({ project }: { project: Project }) {
         <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
           {project.detailPath ? (
             <Link
-              to={project.detailPath}
+              to={localePath(project.detailPath)}
               className="inline-flex items-center gap-2 text-sm font-medium text-goth-rose transition-colors hover:text-goth-violet"
             >
               {t.learnMore}

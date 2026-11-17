@@ -8,11 +8,11 @@ import { LanguageProvider } from './i18n/LanguageProvider'
 const container = document.getElementById('root')!
 const app = (
   <StrictMode>
-    <LanguageProvider>
-      <BrowserRouter>
+    <BrowserRouter>
+      <LanguageProvider>
         <App />
-      </BrowserRouter>
-    </LanguageProvider>
+      </LanguageProvider>
+    </BrowserRouter>
   </StrictMode>
 )
 

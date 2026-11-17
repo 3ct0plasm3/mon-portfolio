@@ -1,7 +1,7 @@
 import type { SVGProps } from 'react'
 import { Link } from 'react-router-dom'
 import { Mail } from 'lucide-react'
-import { LANGUAGES, useLanguage } from '../i18n/LanguageContext'
+import { LANGUAGES, useLanguage, useLocalePath } from '../i18n/LanguageContext'
 
 export const CONTACT_EMAIL = 'marilou.ncks@gmail.com'
 
@@ -9,11 +9,13 @@ const labels = {
   fr: {
     projects: 'Projets',
     rights: 'Tous droits réservés.',
+    legal: 'Mentions légales',
     chooseLanguage: 'Choisir la langue',
   },
   en: {
     projects: 'Projects',
     rights: 'All rights reserved.',
+    legal: 'Legal notice',
     chooseLanguage: 'Choose language',
   },
 }
@@ -147,23 +149,24 @@ export function LanguageSwitcher() {
 
 export function SiteHeader() {
   const { lang } = useLanguage()
+  const localePath = useLocalePath()
   return (
     <header className="sticky top-0 z-50 bg-goth-bg/85 backdrop-blur-md">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-3 py-5 transition-all duration-300 sm:px-6">
         <Link
-          to="/"
+          to={localePath('/')}
           className="text-engraved font-heading text-base tracking-[0.1em] text-goth-rose sm:text-lg sm:tracking-[0.15em] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-goth-rose focus-visible:ring-offset-4 focus-visible:ring-offset-goth-bg"
         >
           ECTO.DEV
         </Link>
         <nav className="flex items-center gap-2 sm:gap-6">
           <Link
-            to="/projets"
+            to={localePath('/projets')}
             className="font-mono text-[11px] uppercase tracking-[0.1em] text-neutral-300 transition-colors hover:text-goth-rose focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-goth-rose focus-visible:ring-offset-4 focus-visible:ring-offset-goth-bg sm:text-xs sm:tracking-[0.2em]"
           >
             {labels[lang].projects}
           </Link>          <a
-            href="/#skills"
+            href={`${localePath('/')}#skills`}
             className="font-mono text-[11px] uppercase tracking-[0.1em] text-neutral-300 sm:text-xs sm:tracking-[0.2em] transition-colors hover:text-goth-rose focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-goth-rose focus-visible:ring-offset-4 focus-visible:ring-offset-goth-bg"
           >
             Skills
@@ -183,6 +186,7 @@ export function SiteHeader() {
 
 export function SiteFooter() {
   const { lang } = useLanguage()
+  const localePath = useLocalePath()
   return (
     <footer className="border-t border-goth-violet/10 px-6 py-10">
       <div className="mx-auto flex max-w-6xl flex-col items-center gap-4">
@@ -216,6 +220,12 @@ export function SiteFooter() {
         <p suppressHydrationWarning className="font-mono text-xs text-neutral-600">
           © {new Date().getFullYear()} Ecto.dev — {labels[lang].rights}
         </p>
+        <Link
+          to={localePath('/mentions-legales')}
+          className="font-mono text-xs text-neutral-500 underline-offset-4 transition-colors hover:text-goth-rose hover:underline"
+        >
+          {labels[lang].legal}
+        </Link>
       </div>
     </footer>
   )

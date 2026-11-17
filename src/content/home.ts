@@ -8,7 +8,7 @@ export interface Project {
   isPlaceholder?: boolean
 }
 
-type ProjectKey = 'violette' | 'catharsid' | 'cda' | 'maCommuneVivante'
+type ProjectKey = 'violette' | 'empreinteLibre' | 'catharsid' | 'cda' | 'maCommuneVivante'
 
 const frProjects: Record<ProjectKey, Project> = {
   violette: {
@@ -16,6 +16,12 @@ const frProjects: Record<ProjectKey, Project> = {
     description:
       'Site et boutique sur mesure pour une artiste : écrits, galerie, vente en ligne et administration autonome.',
     detailPath: '/projets/violette',
+  },
+  empreinteLibre: {
+    title: "L'Empreinte Libre",
+    description:
+      'Mon atelier de créations graphiques engagées : stickers, affiches, illustrations et textile, ouvert en transparence avant toute vente.',
+    detailPath: '/projets/l-empreinte-libre',
   },
   catharsid: { title: 'Catharsid', description: 'Projet à venir.', isPlaceholder: true },
   cda: { title: 'ASBL CDA', description: 'Projet à venir.', isPlaceholder: true },
@@ -33,6 +39,12 @@ const enProjects: Record<ProjectKey, Project> = {
     description:
       'A bespoke website and shop for an artist: writing, gallery, online sales and independent management.',
     detailPath: '/projets/violette',
+  },
+  empreinteLibre: {
+    title: "L'Empreinte Libre",
+    description:
+      'My studio for committed graphic creations: stickers, posters, illustrations and textiles, opened in transparency before any sale.',
+    detailPath: '/projets/l-empreinte-libre',
   },
   catharsid: { title: 'Catharsid', description: 'Upcoming project.', isPlaceholder: true },
   cda: { title: 'CDA non-profit', description: 'Upcoming project.', isPlaceholder: true },
@@ -75,11 +87,12 @@ const fr = {
   sourceCode: 'Code source',
   comingSoon: 'Bientôt disponible',
   // Sélection de l'accueil
-  projects: [frProjects.violette, frProjects.cda, frProjects.catharsid],
+  projects: [frProjects.violette, frProjects.empreinteLibre, frProjects.cda],
   seeAllProjects: 'Voir tous les projets',
   // Page /projets : ajouter ici les prochains projets
   allProjects: [
     frProjects.violette,
+    frProjects.empreinteLibre,
     frProjects.catharsid,
     frProjects.cda,
     frProjects.maCommuneVivante,
@@ -113,6 +126,8 @@ const fr = {
         { name: 'TypeScript', description: 'Développement robuste, typage strict & code maintenable.' },
         { name: 'React / Next.js', description: 'Interfaces réactives, performantes & optimisées pour le SEO.' },
         { name: 'TanStack Query', description: 'Gestion intelligente des données serveur & expérience utilisateur fluide.' },
+        { name: 'Angular', description: 'Composants autonomes, signals & rendu serveur (SSR).' },
+        { name: 'SCSS', description: 'Styles structurés, maintenables & identités visuelles affirmées.' },
       ],
     },
     {
@@ -122,6 +137,7 @@ const fr = {
         { name: 'PostgreSQL', description: 'Conception de bases de données relationnelles structurées & sécurisées.' },
         { name: 'Sanity', description: 'CMS headless & modèles de contenu sur mesure.' },
         { name: 'Stripe', description: 'Paiement en ligne sécurisé & webhooks.' },
+        { name: 'Cloudflare Pages', description: 'Hébergement statique rapide & en-têtes HTTP sécurisés.' },
         { name: 'Git', description: 'Workflow de versioning rigoureux & collaboration continue.' },
       ],
     },
@@ -138,6 +154,12 @@ const fr = {
   ],
   taglineStart: 'Ensemble, donnons vie à vos idées,',
   taglineEnd: 'un pixel à la fois.',
+  universLink: 'Entrer dans mon univers',
+  createEyebrow: '§ Votre espace',
+  createTitle: 'Et si vous créiez le vôtre ?',
+  createText:
+    "Un portfolio, un carnet, un coin d'expression pour réunir vos petites victoires. Le premier échange et l'étude de votre idée sont gratuits, et la création se fait à un tarif accessible, avec une attention particulière pour les projets artistiques et personnels.",
+  createButton: 'Créer votre espace',
 }
 
 const en: typeof fr = {
@@ -170,10 +192,11 @@ const en: typeof fr = {
   learnMore: 'Learn more',
   sourceCode: 'Source code',
   comingSoon: 'Coming soon',
-  projects: [enProjects.violette, enProjects.cda, enProjects.catharsid],
+  projects: [enProjects.violette, enProjects.empreinteLibre, enProjects.cda],
   seeAllProjects: 'See all projects',
   allProjects: [
     enProjects.violette,
+    enProjects.empreinteLibre,
     enProjects.catharsid,
     enProjects.cda,
     enProjects.maCommuneVivante,
@@ -207,6 +230,8 @@ const en: typeof fr = {
         { name: 'TypeScript', description: 'Robust development, strict typing & maintainable code.' },
         { name: 'React / Next.js', description: 'Reactive, high-performance interfaces optimised for SEO.' },
         { name: 'TanStack Query', description: 'Smart server-data management & a smooth user experience.' },
+        { name: 'Angular', description: 'Standalone components, signals & server-side rendering (SSR).' },
+        { name: 'SCSS', description: 'Structured, maintainable styles & bold visual identities.' },
       ],
     },
     {
@@ -216,6 +241,7 @@ const en: typeof fr = {
         { name: 'PostgreSQL', description: 'Design of structured & secure relational databases.' },
         { name: 'Sanity', description: 'Headless CMS & bespoke content models.' },
         { name: 'Stripe', description: 'Secure online payments & webhooks.' },
+        { name: 'Cloudflare Pages', description: 'Fast static hosting & secure HTTP headers.' },
         { name: 'Git', description: 'Rigorous versioning workflow & continuous collaboration.' },
       ],
     },
@@ -232,6 +258,12 @@ const en: typeof fr = {
   ],
   taglineStart: "Together, let's bring your ideas to life,",
   taglineEnd: 'one pixel at a time.',
+  universLink: 'Step into my world',
+  createEyebrow: '§ Your space',
+  createTitle: 'What if you created your own?',
+  createText:
+    'A portfolio, a notebook, a corner for self-expression to gather your small victories. The first conversation and the study of your idea are free, and the build comes at accessible rates, with particular care for artistic and personal projects.',
+  createButton: 'Create your space',
 }
 
 export const homeContent: Record<Lang, typeof fr> = { fr, en }

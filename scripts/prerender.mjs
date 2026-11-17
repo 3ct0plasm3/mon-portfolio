@@ -12,8 +12,9 @@ const { PAGES, SITE_URL, headFor, render } = await import(
 
 const template = readFileSync(resolve(dist, 'index.html'), 'utf8')
 
-function writePage(url, file) {
+function writePage(url, file, lang = 'fr') {
   const html = template
+    .replace('<html lang="fr">', `<html lang="${lang}">`)
     .replace('<!--app-head-->', () => headFor(url))
     .replace('<!--app-html-->', () => render(url))
   const target = resolve(dist, file)
@@ -21,8 +22,9 @@ function writePage(url, file) {
   writeFileSync(target, html)
 }
 
-for (const { path } of PAGES) {
-  writePage(path, path === '/' ? 'index.html' : `${path.slice(1)}.html`)
+// /en/projets → en/projets.html, servi à l'adresse /en/projets.
+for (const { path, lang } of PAGES) {
+  writePage(path, path === '/' ? 'index.html' : `${path.slice(1)}.html`, lang)
 }
 // Vercel sert ce fichier, avec un statut 404, pour toute route inconnue.
 writePage('/404', '404.html')
@@ -32,10 +34,16 @@ writeFileSync(
   `User-agent: *\nAllow: /\n\nSitemap: ${SITE_URL}/sitemap.xml\n`,
 )
 
-const urls = PAGES.map(({ path }) => `  <url><loc>${SITE_URL}${path}</loc></url>`).join('\n')
+// Chaque adresse liste aussi ses traductions (hreflang).
+const urls = PAGES.map(({ path, basePath }) => {
+  const alternates = PAGES.filter((page) => page.basePath === basePath)
+    .map((page) => `    <xhtml:link rel="alternate" hreflang="${page.lang}" href="${SITE_URL}${page.path}" />`)
+    .join('\n')
+  return `  <url>\n    <loc>${SITE_URL}${path}</loc>\n${alternates}\n  </url>`
+}).join('\n')
 writeFileSync(
   resolve(dist, 'sitemap.xml'),
-  `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`,
+  `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${urls}\n</urlset>\n`,
 )
 
 rmSync(serverBuild, { recursive: true, force: true })

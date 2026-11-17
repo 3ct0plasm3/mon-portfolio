@@ -10,11 +10,11 @@ export { PAGES, SITE_URL, headFor } from './seo'
 export function render(url: string) {
   return renderToString(
     <StrictMode>
-      <LanguageProvider>
-        <StaticRouter location={url}>
+      <StaticRouter location={url}>
+        <LanguageProvider>
           <App />
-        </StaticRouter>
-      </LanguageProvider>
+        </LanguageProvider>
+      </StaticRouter>
     </StrictMode>,
   )
 }

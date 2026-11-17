@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
 import { SectionEyebrow, SiteFooter, SiteHeader } from '../components/shared'
-import { useLanguage } from '../i18n/LanguageContext'
+import { useLanguage, useLocalePath } from '../i18n/LanguageContext'
 
 const copy = {
   fr: {
@@ -17,6 +17,7 @@ const copy = {
 function NotFound() {
   const { lang } = useLanguage()
   const t = copy[lang]
+  const localePath = useLocalePath()
   return (
     <div className="flex min-h-screen flex-col bg-goth-bg text-neutral-200">
       <SiteHeader />
@@ -26,7 +27,7 @@ function NotFound() {
           {t.title}
         </h1>
         <Link
-          to="/"
+          to={localePath("/")}
           className="inline-flex items-center gap-2 text-sm font-medium text-goth-rose transition-colors hover:text-goth-violet"
         >
           <ArrowLeft className="h-3.5 w-3.5" />

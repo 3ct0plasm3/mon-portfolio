@@ -1,53 +1,27 @@
-import { useEffect, useMemo, useSyncExternalStore } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 import type { ReactNode } from 'react'
-import { LanguageContext } from './LanguageContext'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { LanguageContext, langFromPath, localizePath, stripLang } from './LanguageContext'
 import type { Lang } from './LanguageContext'
 
-const STORAGE_KEY = 'lang'
-
-let currentLang: Lang | null = null
-const listeners = new Set<() => void>()
-
-function readLang(): Lang {
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY)
-    if (stored === 'fr' || stored === 'en') return stored
-  } catch {
-    // Stockage indisponible : on se rabat sur la langue du navigateur.
-  }
-  return navigator.language.toLowerCase().startsWith('en') ? 'en' : 'fr'
-}
-
-function getLang() {
-  currentLang ??= readLang()
-  return currentLang
-}
-
-// Le HTML prérendu est en français : la langue choisie s'applique juste après l'hydratation.
-function getServerLang(): Lang {
-  return 'fr'
-}
-
-function subscribe(listener: () => void) {
-  listeners.add(listener)
-  return () => {
-    listeners.delete(listener)
-  }
-}
-
-function setLang(next: Lang) {
-  currentLang = next
-  try {
-    localStorage.setItem(STORAGE_KEY, next)
-  } catch {
-    // Le choix reste valable pour la page en cours.
-  }
-  listeners.forEach((listener) => listener())
-}
-
+// La langue vient de l'adresse : le HTML prérendu et la page affichée sont donc
+// toujours dans la même langue. Changer de langue, c'est changer d'adresse.
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const lang = useSyncExternalStore(subscribe, getLang, getServerLang)
-  const value = useMemo(() => ({ lang, setLang }), [lang])
+  const { pathname, hash } = useLocation()
+  const navigate = useNavigate()
+  const lang = langFromPath(pathname)
+
+  const setLang = useCallback(
+    (next: Lang) => {
+      if (next === lang) return
+      navigate(`${localizePath(stripLang(pathname), next)}${hash}`, {
+        state: { keepScroll: true },
+      })
+    },
+    [lang, pathname, hash, navigate],
+  )
+
+  const value = useMemo(() => ({ lang, setLang }), [lang, setLang])
 
   useEffect(() => {
     document.documentElement.lang = lang

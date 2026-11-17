@@ -19,9 +19,9 @@ import {
   SiteFooter,
 } from '../components/shared'
 import { ProjectCard } from '../components/ProjectCard'
-import { Sigil } from '../components/Sigil'
+import { Rosace } from '../components/Rosace'
 import { homeContent } from '../content/home'
-import { useLanguage } from '../i18n/LanguageContext'
+import { useLanguage, useLocalePath } from '../i18n/LanguageContext'
 
 const valueIcons = [
   <Palette className="h-7 w-7" />,
@@ -37,22 +37,23 @@ const processIcons = [
 ]
 
 const heroFlourish =
-  'pointer-events-none absolute h-16 w-16 text-goth-rose/25 sm:h-24 sm:w-24'
+  'pointer-events-none absolute h-16 w-16 text-goth-rose/25 sm:h-24 sm:w-24 lg:h-32 lg:w-32 lg:text-goth-rose/40'
 
 function Home() {
   const shouldReduceMotion = useReducedMotion()
   const { lang } = useLanguage()
   const t = homeContent[lang]
+  const localePath = useLocalePath()
   return (
     <div className="min-h-screen bg-goth-bg text-neutral-200">
       <SiteHeader />
 
       <main>
-        <section className="relative mx-auto flex max-w-4xl flex-col items-center overflow-hidden px-6 py-20 text-center sm:py-28">
+        <section className="relative mx-auto flex max-w-4xl flex-col items-center overflow-hidden px-6 py-20 text-center sm:py-28 lg:max-w-5xl">
           <div className="pointer-events-none absolute left-1/2 top-1/2 h-[min(90vw,520px)] w-[min(90vw,520px)] -translate-x-1/2 -translate-y-1/2">
-            <Sigil className="h-full w-full text-goth-rose opacity-[0.13]" />
+            <Rosace className="h-full w-full text-goth-rose opacity-[0.09]" />
           </div>
-          <div className="relative w-full px-6 py-10 sm:px-14 sm:py-14">
+          <div className="relative w-full px-6 py-10 sm:px-14 sm:py-14 lg:px-20 lg:py-16">
             <CornerFlourish aria-hidden="true" className={`${heroFlourish} left-0 top-0`} />
             <CornerFlourish aria-hidden="true" className={`${heroFlourish} right-0 top-0 -scale-x-100`} />
             <CornerFlourish aria-hidden="true" className={`${heroFlourish} bottom-0 left-0 -scale-y-100`} />
@@ -104,7 +105,7 @@ function Home() {
           </div>
           <div className="mt-10 text-center">
             <Link
-              to="/projets"
+              to={localePath('/projets')}
               className="inline-flex items-center gap-2 text-sm font-medium text-goth-rose transition-colors hover:text-goth-violet"
             >
               {t.seeAllProjects}
@@ -194,7 +195,37 @@ function Home() {
                 <span className="h-2 w-2 shrink-0 rotate-45 border border-goth-rose/70" />
                 <span className="h-px flex-1 bg-gradient-to-l from-transparent to-goth-rose/50" />
               </div>
+
+              <Link
+                to={localePath('/univers')}
+                className="inline-flex items-center gap-2 font-heading text-sm tracking-[0.12em] text-goth-rose transition-colors hover:text-goth-violet"
+              >
+                {t.universLink}
+                <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
             </div>
+          </div>
+        </section>
+
+        <OrnamentalDivider />
+
+        <section className="px-6 py-20">
+          <div className="relative mx-auto max-w-3xl overflow-hidden rounded-2xl border border-goth-rose/40 bg-gradient-to-br from-goth-violet/20 via-neutral-950/90 to-goth-rose/10 p-8 text-center shadow-[0_0_40px_-12px_rgba(124,58,237,0.7)] sm:p-12">
+            <CardCorners />
+            <SectionEyebrow label={t.createEyebrow} />
+            <h2 className="text-engraved mb-4 font-display text-2xl tracking-wide text-neutral-50 sm:text-3xl">
+              {t.createTitle}
+            </h2>
+            <p className="mx-auto max-w-xl text-base leading-relaxed text-neutral-300">
+              {t.createText}
+            </p>
+            <Link
+              to={`${localePath('/univers')}#creer`}
+              className="mt-8 inline-flex items-center gap-2 rounded-full border border-goth-rose/60 px-6 py-3 text-sm font-medium text-goth-rose transition-colors hover:bg-goth-rose hover:text-goth-bg"
+            >
+              {t.createButton}
+              <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
           </div>
         </section>
 
